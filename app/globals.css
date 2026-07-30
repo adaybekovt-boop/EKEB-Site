@@ -1,0 +1,325 @@
+@import "lenis/dist/lenis.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Tokens ─────────────────────────────────────────────────── */
+:root {
+  --background: #08090a;
+  --foreground: #f7f8f8;
+  --elevated: #131418;
+  --muted: #8a8f98;
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #6178f5;
+  --accent-warm: #d4a574;
+  --color-positive: #5dbb63;
+  --color-negative: #d8362a;
+
+  /* Fluid type scale */
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.3rem + 0.7vw, 2rem);
+  --text-3xl: clamp(2rem, 1.6rem + 1.5vw, 3rem);
+  --text-4xl: clamp(2.5rem, 2rem + 2vw, 3.75rem);
+  --text-5xl: clamp(3rem, 2.4rem + 3vw, 5rem);
+  --text-6xl: clamp(3.5rem, 2.8rem + 4vw, 6rem);
+  --text-display: clamp(4rem, 3rem + 6vw, 9rem);
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ─── Base ───────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* Allow text selection in form fields */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+/* Prevent image dragging and save-as */
+img {
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+/* Re-enable pointer events on interactive image wrappers */
+a img, button img, [role="button"] img {
+  pointer-events: auto;
+}
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  /* Prevent iOS auto-scaling text on rotate */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Disable parallax mouse magnetics that don't apply on touch — fall back
+   to plain hover-less rendering and avoid pointer-jitter on iOS. */
+@media (hover: none), (pointer: coarse) {
+  body { cursor: auto; }
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--background);
+}
+
+h1, h2, h3, h4 {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+h1 {
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+p {
+  text-wrap: pretty;
+  max-width: 65ch;
+}
+
+/* ─── Lenis ─────────────────────────────────────────────────── */
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ─── Utility animations ─────────────────────────────────────── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes breathe {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.01);
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+@keyframes aurora-shift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(-3%, 4%) scale(1.08);
+    opacity: 0.75;
+  }
+}
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+@keyframes spotlight {
+  0% { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+  100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+}
+@keyframes float-up {
+  0% { transform: translate3d(0, 100%, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.55; }
+  90% { opacity: 0.4; }
+  100% { transform: translate3d(0, -200%, 0) rotate(360deg); opacity: 0; }
+}
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(var(--orbit-r,140px)) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(var(--orbit-r,140px)) rotate(-360deg); }
+}
+@keyframes tilt {
+  0%, 100% { transform: rotateZ(0deg); }
+  50% { transform: rotateZ(2deg); }
+}
+@keyframes scroll-hint {
+  0% { transform: translate(-50%, 0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translate(-50%, 14px); opacity: 0; }
+}
+.animate-scroll-hint {
+  animation: scroll-hint 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  will-change: transform, opacity;
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+  will-change: transform;
+}
+.idle-breathe {
+  animation: breathe 6s ease-in-out infinite;
+  will-change: transform;
+}
+.idle-glow {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--elevated) 0%, var(--border) 50%, var(--elevated) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+  border-radius: 0.5rem;
+}
+
+/* gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #f7f8f8 0%, #8a8f98 60%, #6178f5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-warm {
+  background: linear-gradient(120deg, #fffbe6 0%, #d4a574 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* hairline */
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+}
+
+/* ─── Mobile backdrop-blur clamp ────────────────────────────
+ * Mobile WebKit / Chromium handle backdrop-filter blurs >16px very
+ * poorly. Cap any backdrop-blur to 14px on coarse-pointer devices so
+ * Liquid Glass cards stay smooth at 60fps without losing the effect.
+ * ──────────────────────────────────────────────────────────── */
+@media (hover: none), (pointer: coarse) {
+  [class*="backdrop-blur"] {
+    backdrop-filter: blur(14px) saturate(1.4) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(1.4) !important;
+  }
+}
+
+/* ─── Liquid Glass refraction ──────────────────────────────── */
+/* Only activates on high-tier desktop — gracefully no-op elsewhere. */
+.liquid-refract {
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+}
+html[data-tier="high"] .liquid-refract {
+  backdrop-filter: url(#liquid-displace);
+  -webkit-backdrop-filter: url(#liquid-displace);
+}
+@media (hover: none), (pointer: coarse) {
+  .liquid-refract { backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* ─── Containment for motion-heavy regions ─────────────────── */
+.motion-island {
+  contain: layout paint style;
+  isolation: isolate;
+  will-change: transform;
+}
+
+/* Below-fold sections skip rendering until close to viewport */
+.motion-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1200px;
+}
+
+/* CSS fallback used on mobile or when GPU tier is "low" — keeps the
+ * royal brand palette + slow drift so it still feels alive.
+ * Uses transform on a single pseudo-element rather than animating
+ * background-position, which is layout/paint-heavy on mobile. */
+.gradient-bg-fallback {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0a1138 0%, #131a4a 35%, #0c1024 75%, #08090a 100%);
+  overflow: hidden;
+  isolation: isolate;
+}
+.gradient-bg-fallback::before,
+.gradient-bg-fallback::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  pointer-events: none;
+  will-change: transform;
+}
+.gradient-bg-fallback::before {
+  background:
+    radial-gradient(55% 50% at 50% 35%, rgba(97,120,245,0.65) 0%, transparent 65%),
+    radial-gradient(40% 35% at 18% 22%, rgba(97,120,245,0.45) 0%, transparent 60%),
+    radial-gradient(35% 30% at 82% 16%, rgba(212,165,116,0.32) 0%, transparent 65%);
+  animation: gradient-fallback-drift-a 26s ease-in-out infinite;
+  filter: blur(6px);
+}
+.gradient-bg-fallback::after {
+  background:
+    radial-gradient(50% 40% at 50% 95%, rgba(97,120,245,0.32) 0%, transparent 65%),
+    radial-gradient(30% 25% at 25% 75%, rgba(212,165,116,0.20) 0%, transparent 60%);
+  animation: gradient-fallback-drift-b 32s ease-in-out -8s infinite;
+  filter: blur(8px);
+}
+
+@keyframes gradient-fallback-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, -2%, 0) scale(1.08); }
+}
+@keyframes gradient-fallback-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-3%, 3%, 0) scale(1.06); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .gradient-bg-fallback {
+    animation: none;
+  }
+}

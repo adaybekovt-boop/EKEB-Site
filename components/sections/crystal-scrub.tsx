@@ -200,6 +200,19 @@ export function CrystalScrub() {
     if (hintRef.current) gsap.set(hintRef.current, { opacity: 0, y: 8 });
 
     // ── ScrollTrigger
+    if (isMobile || reducedMotion) {
+      void kickOffPreload();
+      split?.revert();
+      if (eyebrowRef.current) gsap.set(eyebrowRef.current, { opacity: 1, y: 0 });
+      if (headlineRef.current) gsap.set(headlineRef.current, { opacity: 1, y: 0, filter: "none" });
+      if (sublineRef.current) gsap.set(sublineRef.current, { opacity: 1, y: 0 });
+      if (arrowRef.current) gsap.set(arrowRef.current, { opacity: 1, y: 0 });
+      if (hintRef.current) gsap.set(hintRef.current, { opacity: 0 });
+      return () => {
+        split?.revert();
+        io.disconnect();
+      };
+    }
     const st = ScrollTrigger.create({
       trigger: section,
       start: isMobile ? "center center" : "top top",

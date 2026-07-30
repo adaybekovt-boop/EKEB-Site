@@ -7,6 +7,7 @@ import { ScrollProgress } from "@/components/scroll-progress";
 import { GradientBackground4 } from "@/components/ui/gradient-background-4";
 import { LiquidGlassFilter } from "@/components/ui/liquid-glass-filter";
 import { CopyProtection } from "@/components/copy-protection";
+import { BootSplash } from "@/components/boot-splash";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className="dark" data-tier="low">
       <body className={`${GeistSans.variable} ${GeistMono.variable}`}>
+        <BootSplash />
         <DeviceTierProvider>
           <SmoothScrollProvider>
             <LiquidGlassFilter />

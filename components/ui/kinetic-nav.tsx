@@ -136,9 +136,9 @@ export function KineticNav() {
   return (
     <div ref={containerRef}>
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <header className="w-full px-4">
-          <nav className="flex items-center justify-between py-5">
+      <div className="mobile-nav-shell fixed top-0 left-0 right-0 z-50">
+        <header className="w-full px-3 sm:px-4 pt-[env(safe-area-inset-top)]">
+          <nav className="flex items-center justify-between py-3 md:py-5">
             <Link href="/" className="flex items-center gap-3 shrink-0">
               <div className="relative h-9 w-9">
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#6178f5] via-[#a8b5ff] to-[#d4a574] opacity-90" />
@@ -160,7 +160,7 @@ export function KineticNav() {
                 type="button"
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={isMenuOpen}
-                className="nav-close-btn relative h-14 w-14 md:h-16 md:w-16 shrink-0 rounded-full border border-white/[0.16] bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/[0.08] hover:border-white/[0.3] transition-colors"
+                className="nav-close-btn relative h-12 w-12 md:h-16 md:w-16 shrink-0 rounded-full border border-white/[0.16] bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/[0.08] hover:border-white/[0.3] transition-colors touch-manipulation"
                 onClick={toggleMenu}
               >
                 <span className="relative block h-[18px] w-7" aria-hidden>
@@ -178,7 +178,7 @@ export function KineticNav() {
       <section className={`fixed inset-0 z-40 h-[100dvh] w-screen ${isMenuOpen ? "pointer-events-auto" : "pointer-events-none"}`}>
         <div data-nav="closed" className="nav-overlay-wrapper fixed inset-0 h-[100dvh] w-screen hidden">
           <div className="overlay fixed inset-0 h-[100dvh] w-screen bg-black/45 backdrop-blur-[2px]" onClick={closeMenu} />
-          <nav className="menu-content fixed right-0 top-0 h-[100dvh] w-[88vw] sm:w-[72vw] md:w-[46vw] lg:w-1/3 overflow-hidden border-l border-white/[0.08] shadow-[-24px_0_80px_rgba(0,0,0,0.38)]">
+          <nav className="menu-content fixed right-0 top-0 h-[100dvh] w-full sm:w-[72vw] md:w-[46vw] lg:w-1/3 overflow-hidden border-l border-white/[0.08] shadow-[-24px_0_80px_rgba(0,0,0,0.38)]">
             <div className="menu-bg absolute inset-0">
               <div className="backdrop-layer first absolute inset-0 bg-[var(--background)]" />
               <div className="backdrop-layer second absolute inset-0 bg-[var(--elevated)]" />
@@ -223,12 +223,12 @@ export function KineticNav() {
               </div>
             </div>
 
-            <div className="menu-content-wrapper relative z-10 flex items-center justify-center h-full px-5">
-              <ul className="menu-list w-full space-y-3 md:space-y-5">
+            <div className="menu-content-wrapper relative z-10 flex items-center justify-center h-full px-5 pt-[max(5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+              <ul className="menu-list w-full space-y-2 md:space-y-5">
                 {NAV_LINKS.map((link) => (
                   <li key={link.href} className="menu-list-item" data-shape={link.shape}>
                     <Link href={link.href} className="nav-link group relative block overflow-hidden" onClick={closeMenu}>
-                      <p className="nav-link-text relative z-10 text-3xl sm:text-4xl xl:text-5xl font-medium tracking-tighter text-white/90 group-hover:text-white transition-colors">
+                      <p className="nav-link-text relative z-10 py-2 text-[clamp(1.8rem,8vw,3rem)] sm:text-4xl xl:text-5xl font-medium tracking-tighter text-white/90 group-hover:text-white transition-colors">
                         {link.label}
                       </p>
                       <div className="nav-link-hover-bg absolute inset-0 bg-white/[0.03] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />

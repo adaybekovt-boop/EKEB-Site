@@ -88,6 +88,7 @@ export function DeviceTierProvider({ children }: { children: ReactNode }) {
     const initial = detect();
     setState(initial);
     document.documentElement.dataset.tier = initial.tier;
+    document.documentElement.dataset.device = initial.isMobile ? "mobile" : "desktop";
 
     let raf = 0;
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -101,6 +102,7 @@ export function DeviceTierProvider({ children }: { children: ReactNode }) {
           : next
       );
       document.documentElement.dataset.tier = next.tier;
+      document.documentElement.dataset.device = next.isMobile ? "mobile" : "desktop";
     };
     const onResize = () => {
       if (raf) return;

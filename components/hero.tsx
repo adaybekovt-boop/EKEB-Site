@@ -8,6 +8,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { MagneticButton } from "./ui/magnetic-button";
 import { AnimatedNumber } from "./ui/animated-number";
 import { SplineRobot } from "./ui/spline-robot";
+import { MobileSmokeBg } from "./ui/mobile-smoke-bg";
 import { useDeviceTier } from "@/lib/device-tier";
 
 const ShaderGradientBg = dynamic(
@@ -89,9 +90,9 @@ export function Hero() {
         initial={{ opacity: 0, scale: 1.08 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 2.4, ease: EASE }}
-        className="absolute inset-0 md:left-[30%] z-0"
+        className="absolute inset-x-[-18%] top-[-5%] h-[56svh] md:inset-0 md:left-[30%] md:h-auto z-0"
       >
-        <SplineRobot className="w-full h-full" />
+        {isMobile ? <MobileSmokeBg className="w-full h-full" /> : <SplineRobot className="w-full h-full" />}
       </motion.div>
 
       {/* legibility mask */}
@@ -114,23 +115,23 @@ export function Hero() {
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[40vh] bg-gradient-to-t from-[var(--background)] via-[var(--background)]/70 to-transparent z-[2]" />
 
       {/* content — all entrance animations are mount-time, not scroll */}
-      <div className="relative z-10 mx-auto max-w-[1400px] px-5 md:px-10 pt-[58vh] md:pt-44 pb-16 md:pb-24 min-h-[100dvh] flex flex-col justify-between pointer-events-none">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-5 md:px-10 pt-[47svh] md:pt-44 pb-10 md:pb-24 min-h-[100dvh] flex flex-col justify-between pointer-events-none">
         <div className="max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: EASE }}
-            className="inline-flex items-center gap-2.5 mb-8 pl-2 pr-4 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.025] backdrop-blur-sm"
+            className="inline-flex items-center gap-2 mb-5 md:mb-8 pl-1.5 pr-3 py-1.5 max-w-full rounded-full border border-white/[0.1] bg-black/25 backdrop-blur-sm"
           >
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--accent)]/15">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] idle-glow" />
             </span>
-            <span className="text-[13px] text-foreground/85">
+            <span className="text-[11.5px] sm:text-[13px] text-foreground/85 truncate">
               Набор 2026 открыт — Актобе
             </span>
           </motion.div>
 
-          <h1 className="font-medium tracking-[-0.045em] leading-[0.95] text-[clamp(2.6rem,9vw,9rem)] mb-8 md:mb-10 text-white">
+          <h1 className="font-medium tracking-[-0.045em] leading-[0.96] text-[clamp(2.35rem,11vw,9rem)] mb-5 md:mb-10 text-white">
             {headlineLines.map((line, i) => (
               <motion.span
                 key={line}
@@ -152,7 +153,7 @@ export function Hero() {
             initial={{ y: 26, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.3, delay: 1.05, ease: EASE }}
-            className="text-[15px] md:text-xl text-[var(--muted)] max-w-2xl leading-relaxed mb-8 md:mb-10"
+            className="text-[14px] sm:text-[15px] md:text-xl text-white/65 max-w-2xl leading-relaxed mb-6 md:mb-10"
           >
             Европейский высший колледж цифровых технологий и
             предпринимательства в Актобе. Дуальное обучение, WorldSkills,
@@ -163,7 +164,7 @@ export function Hero() {
             initial={{ y: 18, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.1, delay: 1.4, ease: EASE }}
-            className="flex flex-wrap items-center gap-3"
+            className="grid grid-cols-1 min-[430px]:grid-cols-2 md:flex md:flex-wrap items-center gap-2.5 md:gap-3 [&>a]:w-full md:[&>a]:w-auto [&>a]:justify-center"
           >
             <MagneticButton href="#programs" className="pointer-events-auto">
               Выбрать специальность <ArrowRight className="w-4 h-4" />
@@ -174,7 +175,7 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <div className="mt-auto grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 pt-10 md:pt-16 border-t border-white/[0.06]">
+        <div className="mt-10 md:mt-auto grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-7 md:gap-8 pt-7 md:pt-16 border-t border-white/[0.08]">
           {([
             { kind: "num", value: 12, suffix: "+", label: "специальностей" },
             { kind: "text", text: "WorldSkills", label: "сертифицированный центр" },
@@ -197,14 +198,14 @@ export function Hero() {
                   value={m.value}
                   suffix={m.suffix}
                   startDelay={1700 + i * 120}
-                  className="text-2xl md:text-4xl font-medium tracking-tight text-white tabular-nums"
+                  className="text-xl sm:text-2xl md:text-4xl font-medium tracking-tight text-white tabular-nums"
                 />
               ) : (
-                <span className="text-2xl md:text-4xl font-medium tracking-tight text-white">
+                <span className="text-lg sm:text-2xl md:text-4xl font-medium tracking-tight text-white break-words">
                   {m.text}
                 </span>
               )}
-              <span className="text-[12.5px] text-[var(--muted)] tracking-wide">
+              <span className="text-[11px] sm:text-[12.5px] text-[var(--muted)] tracking-wide leading-snug">
                 {m.label}
               </span>
             </motion.div>
@@ -213,7 +214,7 @@ export function Hero() {
       </div>
 
       {/* corner ticker */}
-      <div className="absolute bottom-6 right-6 md:right-10 z-10 flex items-center gap-2 text-[11px] text-[var(--muted)]">
+      <div className="hidden md:flex absolute bottom-6 right-10 z-10 items-center gap-2 text-[11px] text-[var(--muted)]">
         <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] idle-glow" />
         Приём документов открыт
       </div>

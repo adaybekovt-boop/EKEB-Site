@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useInView,
@@ -46,10 +46,16 @@ export function AnimatedNumber({
   const inView = useInView(ref, { once: true, margin: "-15%" });
   const reduced = useReducedMotion();
   const { tier } = useDeviceTier();
+  const [clientReady, setClientReady] = useState(false);
+  const hasAnimated = useRef(false);
 
   const skipAnimation = reduced || tier === "low";
 
-  const mv = useMotionValue(0);
+  // Keep the real value in the exported HTML and during hydration. Once the
+  // client and viewport observer are ready, visible counters reset to zero and
+  // play their spring animation. A missed observer callback can no longer
+  // leave the public site stuck at "0".
+  const mv = useMotionValue(value);
   const spring = useSpring(mv, {
     stiffness: 60,
     damping: 18,
@@ -61,22 +67,29 @@ export function AnimatedNumber({
     return `${prefix}${body}${suffix}`;
   });
 
+  useEffect(() => setClientReady(true), []);
+
   useEffect(() => {
-    if (!inView) return;
+    if (!clientReady) return;
+
     if (skipAnimation) {
-      // Jump straight to final — no spring work
       mv.jump(value);
       return;
     }
+
+    if (!inView || hasAnimated.current) return;
+    hasAnimated.current = true;
+    mv.jump(0);
+
     if (startDelay > 0) {
       const t = setTimeout(() => mv.set(value), startDelay);
       return () => clearTimeout(t);
     }
     mv.set(value);
-  }, [inView, mv, value, startDelay, skipAnimation]);
+  }, [clientReady, inView, mv, value, startDelay, skipAnimation]);
 
   // Static render path — single string, no motion subscription
-  if (skipAnimation) {
+  if (clientReady && skipAnimation) {
     const body = format ? format(value) : value.toFixed(decimals);
     return (
       <span ref={ref} className={className}>

@@ -39,3 +39,7 @@ next-env.d.ts
 
 # local design experiments
 prototype/
+
+# local prototype artifacts
+prototype-screenshot.png
+public/mobile-preview.html

@@ -9,6 +9,7 @@ import { MagneticButton } from "./ui/magnetic-button";
 import { AnimatedNumber } from "./ui/animated-number";
 import { SplineRobot } from "./ui/spline-robot";
 import { MobileSmokeBg } from "./ui/mobile-smoke-bg";
+import { SoftGradientBackdrop } from "./ui/soft-gradient-backdrop";
 import { useDeviceTier } from "@/lib/device-tier";
 
 const ShaderGradientBg = dynamic(
@@ -43,6 +44,7 @@ export function Hero() {
       ref={root}
       className="relative min-h-[100dvh] overflow-hidden motion-island"
     >
+      <SoftGradientBackdrop className="absolute inset-0 -z-10" />
       {/* Atmospheric hero image — visible under the shader on desktop,
           primary background on mobile where shader is disabled. */}
       {!USE_CALM_GLOBAL_GRADIENT && <div className="absolute inset-0 -z-10">

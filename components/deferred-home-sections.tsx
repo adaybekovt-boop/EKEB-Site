@@ -76,7 +76,14 @@ function ViewportSection({
       ref={rootRef}
       className="motion-section"
       id={id}
-      style={mounted ? undefined : { minHeight }}
+      style={{
+        // Reuse the same estimate as the pre-mount placeholder so the
+        // content-visibility fallback size (used when this section is
+        // first measured) is close to the real height instead of the
+        // generic 1200px default — avoids a layout jump on first reveal.
+        containIntrinsicSize: `1px ${minHeight}`,
+        ...(mounted ? undefined : { minHeight }),
+      }}
     >
       {mounted ? <Component /> : null}
     </div>

@@ -1,4 +1,5 @@
 @import "lenis/dist/lenis.css";
+@import "./soft-gradient-backdrop.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -92,7 +93,6 @@ body {
   body { min-width: 320px; }
   main, section, header, footer { max-width: 100vw; }
   button, a, [role="button"] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-  .motion-section { contain-intrinsic-size: 1px 850px; }
   .motion-island { will-change: auto; }
   .hairline { margin-left: 1rem; margin-right: 1rem; }
   .mobile-nav-shell {
@@ -292,10 +292,14 @@ html[data-tier="high"] .liquid-refract {
   will-change: transform;
 }
 
-/* Below-fold sections skip rendering until close to viewport */
+/* Below-fold sections skip rendering until close to viewport.
+   `auto` remembers the real measured height after first layout, so the
+   1200px fallback only matters for the very first reveal — sections that
+   set a closer estimate via inline contain-intrinsic-size (see
+   ViewportSection) avoid that first-reveal jump too. */
 .motion-section {
   content-visibility: auto;
-  contain-intrinsic-size: 1px 1200px;
+  contain-intrinsic-size: auto 1200px;
 }
 
 /* CSS fallback used on mobile or when GPU tier is "low" — keeps the

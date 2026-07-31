@@ -9,7 +9,12 @@ export default function Home() {
     <main className="relative">
       <Nav />
       <Hero />
-      <div className="motion-section" id="about">
+      {/* No content-visibility here: About is always mounted and sits right
+          after the hero, so the user reaches it almost immediately — the
+          skip-then-reveal of content-visibility would just cause an early,
+          highly-visible layout jump for a section that's never really
+          "far below the fold". */}
+      <div id="about">
         <About />
       </div>
       <ProgramsShowcase />

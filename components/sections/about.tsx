@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitType from "split-type";
 import { AnimatedNumber } from "@/components/ui/animated-number";
 import { DarkCard } from "@/components/ui/dark-card";
+import { SiriWave } from "@/components/ui/siri-wave";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
@@ -123,9 +124,9 @@ export function About() {
         </motion.div>
       </div>
 
-      {/* big image strip with scroll scale */}
+      {/* big image strip with scroll scale — desktop only */}
       <div className="relative mt-20 md:mt-32 mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="relative aspect-[4/5] sm:aspect-[16/9] rounded-3xl overflow-hidden border border-white/[0.08]">
+        <div className="hidden md:block relative aspect-[16/9] rounded-3xl overflow-hidden border border-white/[0.08]">
           <motion.div
             style={{ scale: scaleImg }}
             className="absolute inset-0"
@@ -162,6 +163,28 @@ export function About() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Mobile: compact card with an animated orb instead of the photo */}
+        <div className="md:hidden relative rounded-3xl overflow-hidden border border-white/[0.08] bg-gradient-to-b from-[var(--elevated)]/50 to-[var(--background)] px-6 py-9">
+          <div className="flex justify-center mb-7">
+            <SiriWave
+              variant="wave"
+              size={160}
+              renderScale={0.85}
+              className="shadow-[0_10px_50px_rgba(97,120,245,0.35)]"
+            />
+          </div>
+          <span className="inline-block text-[12px] text-[var(--accent)] mb-3">
+            Бизнес-инкубатор
+          </span>
+          <h3 className="text-2xl font-medium tracking-tighter mb-3 leading-[1.05]">
+            Со своей идеей — в инкубатор колледжа.
+          </h3>
+          <p className="text-[var(--muted)] text-[14px]">
+            Студентам с идеей колледж даёт ментора из индустрии, рабочее место и pre-seed
+            на запуск. Часть стартапов потом становится дипломным проектом.
+          </p>
         </div>
       </div>
     </section>
